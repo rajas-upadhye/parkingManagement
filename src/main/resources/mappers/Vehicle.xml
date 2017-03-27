@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Vehicle">
+    <resultMap id="vehicle" type="com.Entity.Vehicle">
+        <result property="vehicleId" column="vehicle_id"/>
+        <result property="license" column="license"/>
+    </resultMap>
+
+
+    <select id="getVehicle"  resultMap="vehicle">
+        SELECT vehicle_id,license FROM vehicles WHERE license=#{license};
+    </select>
+
+    <insert id="insert" parameterType="com.Entity.Vehicle" useGeneratedKeys="true" keyProperty="vehicleId" keyColumn="vehicle_id">
+        INSERT INTO vehicles (license) VALUES(#{license});
+    </insert>
+</mapper>
+

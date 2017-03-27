@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Parking">
+    <resultMap id="parking" type="com.Entity.Vehicle">
+        <result property="vehicleId" column="vehicle_id"/>
+        <result property="license" column="license"/>
+    </resultMap>
+
+    <resultMap id="reservation" type="com.Entity.Reservation">
+        <result property="reservationId" column="parking_id"/>
+        <result property="spotId" column="spot_id"/>
+        <result property="vehicleId" column="vehicle_id"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="hashmap" useGeneratedKeys="true" keyProperty="parkingId" keyColumn="parking_id">
+        INSERT INTO parking (spot_id,vehicle_id) VALUES(#{spot_id},#{vehicle_id});
+    </insert>
+
+    <select id="getReservation" parameterType="Integer" resultMap="reservation">
+        SELECT parking_id,spot_id,vehicle_id,status from parking where parking_id = #{reservationId};
+    </select>
+
+    <update id="updateReservation" parameterType="hashmap">
+        UPDATE parking SET spot_id = #{spotId} WHERE parking_id=#{reservationId};
+    </update>
+</mapper>
+

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Spot" >
+
+    <resultMap id="spotLotResult" type="com.Entity.SpotLot">
+        <result property="spotId" column="spot_id"/>
+        <result property="type" column="type"/>
+        <result property="isAssisted" column="is_assisted"/>
+        <result property="isReserved" column="is_reserved"/>
+        <result property="status" column="status"/>
+        <result property="lotId" column="lot_id"/>
+    </resultMap>
+
+    <resultMap id="spotResult" type="com.Entity.Spot">
+        <result property="spotId" column="spot_id"/>
+        <result property="type" column="type"/>
+        <result property="isAssisted" column="is_assisted"/>
+        <result property="isReserved" column="is_reserved"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+
+    <select id="getSpotById"  resultMap="spotResult" parameterType="int">
+        SELECT spot_id,type,is_assisted,is_reserved,status FROM spots WHERE spot_id=#{spotId};
+    </select>
+
+    <select id="suggestSpot"  resultMap="spotResult">
+        SELECT spot_id,type,is_assisted,is_reserved FROM spots WHERE status = 0 limit 1;
+    </select>
+
+    <select id="suggestSpotByType"  parameterType="int" resultMap="spotResult">
+        SELECT spot_id,type,is_assisted,is_reserved FROM spots WHERE status = 0 and type=#{type} limit 1;
+    </select>
+
+    <update id="reserveSpot" parameterType="int">
+        UPDATE spots SET status = 1 WHERE spot_id=#{spotId};
+    </update>
+
+    <update id="freeSpot" parameterType="int">
+        UPDATE spots SET status = 0 WHERE spot_id=#{spotId};
+    </update>
+
+</mapper>
